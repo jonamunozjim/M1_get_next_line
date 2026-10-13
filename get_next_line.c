@@ -17,46 +17,41 @@
 char	*get_line(int fd, char *stor)
 {
 	char		*buf;
-//	char		*tmp;
 	int			rd_out;
 
-	buf = calloc ((BUFFER_SIZE + 1), sizeof (char));
+	buf = ft_calloc ((BUFFER_SIZE + 1), sizeof (char));
 	rd_out = read(fd, buf, BUFFER_SIZE);
-	if (rd_out > 0)
+	while (rd_out > 0)
 	{
-		buf[BUFFER_SIZE + 1] = '\0';
-		while (rd_out > 0)
-		{
-			stor = ft_strjoin (stor, buf);
-			if (ft_strchr(stor, '\n'))
-				return (free(buf), stor);
-			rd_out = read(fd, buf, BUFFER_SIZE);
-		}
-		return (free(buf), stor);
+		stor = ft_strjoin (stor, buf);
+		if (ft_strchr(stor, '\n'))
+			return (free(buf), stor);
+		rd_out = read(fd, buf, BUFFER_SIZE);
 	}
-	else
-		return (free (buf), NULL);
+	return (free(buf), stor);
 }
 
-char	*extract_line (char *stor)
+char	*extract_line(char *stor)
 {
-	int	i;
-	char *line;
-	
+	int		i;
+	char	*line;
+
 	i = 0;
 	while (stor[i] && stor[i] != '\n')
+		i++;
+	if (stor[i] == '\n')
 		i++;
 	line = ft_substr (stor, 0, i);
 	return (line);
 }
 
-char	*clean_line (char *stor)
+char	*clean_line(char *stor)
 {
-	int	i;
-	int	len;
-	char *rest;
+	int		i;
+	int		len;
+	char	*rest;
 
-	i = 1;
+	i = 0;
 	len = ft_strlen (stor);
 	while (stor[i] && stor[i] != '\n')
 		i++;
@@ -68,11 +63,11 @@ char	*get_next_line(int fd)
 {
 	static char	*stor;
 	char		*line;
-	
+
 	if (!stor)
 		stor = calloc(3, sizeof (char));
 	stor = get_line (fd, stor);
-	if (!stor)
+	if (!stor || stor[0] == '\0')
 		return (free (stor), NULL);
 	else
 	{
@@ -82,18 +77,18 @@ char	*get_next_line(int fd)
 	}
 }
 
-int main(void)
+int	main(void)
 {
-	int	    fd;
-    char    *str;
-    
+	int		fd;
+	char	*str;
+
 	str = malloc (300 * sizeof (char));
 	str = "Ho";
 	fd = open("file.txt", O_RDONLY);
 	while (str != NULL)
 	{
 		str = get_next_line (fd);
-		printf(">%s<", str);
+		printf("%s", str);
 		free (str);
 	}
 	close (fd);
