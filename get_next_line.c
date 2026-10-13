@@ -32,21 +32,30 @@ int	read_line(int fd, char **stor)
 			return (free(buf), rd_out);
 		rd_out = read(fd, buf, BUFFER_SIZE);
 	}
+	/*
+	tmp = ft_strjoin (*stor, buf);
+	free (*stor);
+	*stor = tmp;
+	*/
 	return (free(buf), rd_out);
 }
 
-char	*extract_line (char *stor)
+char	*extract_line (char **stor)
 {
 	int	i;
-	int	len;
+	//int	len;
 	char *line;
-
+	char	*tmp;
 	i = 0;
-	len = ft_strlen (stor);
-	while (stor[i] && stor[i] != '\n')
+	//len = ft_strlen (*stor);
+	while (*stor[i] && *stor[i] != '\n')
 		i++;
-	line = ft_substr (stor, 0, i);
-	stor = ft_substr (stor, (i + 1), len);
+	line = ft_substr (*stor, 0, i);
+	tmp = ft_substr (*stor, 0, i);
+	printf("%s-%s", line, tmp);
+	free(*stor);
+	stor = &tmp;
+	free (tmp);
 	return (line);
 }
 
@@ -61,7 +70,7 @@ char	*get_next_line(int fd)
 	rd_out = read_line (fd, &stor);
 	if (rd_out > 0)
 	{
-		line = extract_line (stor);
+		line = extract_line (&stor);
 		return (line);
 	}
 	else
