@@ -14,52 +14,63 @@
 
 #include "get_next_line.h"
 
-int	read_line(int fd, char *buf, char *stor)
+int	read_line(int fd, char *stor)
 {
-	int	i;
-	int	j;
-	int	rd_out;
+	char		*buf;
+	int			rd_out;
 
-	i = 0;
-	j = 0;
+	buf = calloc ((BUFFER_SIZE + 1), sizeof (char));
 	rd_out = read(fd, buf, BUFFER_SIZE);
+	buf[BUFFER_SIZE + 1] = '\0';
 	while (rd_out > 0)
 	{
-		while (i < BUFFER_SIZE)
+		stor = ft_strjoin(stor, buf);
+		//printf("Stor: %s", stor);
+		if (ft_strchr(stor, '\n'))
 		{
-			stor[j] = buf[i];
-			if (buf[i] == '\n')
-			{
-				while (i < BUFFER_SIZE)
-				{
-					stor[j] = buf[i + j];
-					i++;
-				}
-				return (rd_out);
-			}
-			j++;
-			i++;
+			//printf("%i", rd_out);
+			return (rd_out);
 		}
-		i = 0;
+		return (rd_out);
 		rd_out = read(fd, buf, BUFFER_SIZE);
 	}
 	return (rd_out);
 }
 
+char	*extract_line (char *stor)
+{
+	int	i;
+	int	len;
+	char *line;
+
+	i = 0;
+	len = ft_strlen (stor);
+	printf("%i\n", len);
+	while (stor[i] && stor[i] != '\n')
+		i++;
+	line = ft_substr (stor, 0, i);
+	printf("Line: %s\n", line);
+	stor = ft_substr (stor, (i + 1), len);
+	return (line);
+}
+
 char	*get_next_line(int fd)
 {
-	char		*buf;
 	static char	*stor;
 	char		*line;
-	int	rd_out;
-
-	buf = malloc (BUFFER_SIZE * sizeof (char));
-	line = malloc (BUFFER_SIZE + 1 * sizeof (char));
-	read_line (fd, )
-	if (rd_out <= 0)
+	int			rd_out;
+	
+	if (!stor)
+		stor = calloc(3, sizeof (char));
+	rd_out = read_line (fd, stor);
+	printf("%s\n%i\n", stor, rd_out);
+	if (rd_out > 0)
+	{
+		line = extract_line (stor);
+		return (line);
+	}
+	else
 		return (NULL);
-	return (free (buf), line);
-//	return (free (buf), line); //I need to free TMP also. To check when!
 }
 
 int main(void)
@@ -73,7 +84,7 @@ int main(void)
 	while (str != NULL)
 	{
 		str = get_next_line (fd);
-		printf("%s", str);
+		printf(".%s", str);
 		free (str);
 	}
 	close (fd);

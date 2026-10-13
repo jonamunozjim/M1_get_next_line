@@ -6,7 +6,7 @@
 /*   By: jmunoz-j <jmunoz-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 13:24:41 by jmunoz-j          #+#    #+#             */
-/*   Updated: 2026/10/09 12:30:40 by jmunoz-j         ###   ########.fr       */
+/*   Updated: 2026/10/13 13:56:08 by jmunoz-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (ft_strlen((char *)src));
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	size_t	len1;
@@ -101,15 +101,51 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	return (dst_len + src_len);
 }
 
-char	*ft_strdup(const char *s)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*dup;
-	size_t	len;
+	char			*sub;
+	unsigned int	i;
+	size_t			s_len;
 
-	len = ft_strlen ((char *)s) + 1;
-	dup = malloc(len * sizeof(char));
-	if (dup == NULL)
+	if (!s)
 		return (NULL);
-	ft_strlcpy(dup, s, len);
-	return (dup);
+	s_len = ft_strlen ((char *)s);
+	if (start >= s_len)
+		len = 0;
+	else if (len > (s_len - start))
+		len = s_len - start;
+	i = 0;
+	sub = malloc((len + 1) * sizeof(char));
+	if (sub == NULL)
+		return (NULL);
+	while (i < len && s[start + i])
+	{
+		sub[i] = s[start + i];
+		i++;
+	}
+	sub[i] = '\0';
+	return (sub);
+}
+char	*ft_strchr(const char *s, int c)
+{
+	size_t	i;
+	int		len;
+
+	len = ft_strlen((char *)s);
+	i = 0;
+	if (c == '\0')
+	{
+		return (&((char *)s)[len]);
+	}
+	else
+	{
+		while (s[i])
+		{
+			if (s[i] == (char)c)
+				return (&((char *)s)[i]);
+			else
+				i++;
+		}
+	}
+	return (NULL);
 }
