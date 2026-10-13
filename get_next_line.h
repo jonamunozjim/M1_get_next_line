@@ -6,12 +6,15 @@
 /*   By: jmunoz-j <jmunoz-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 13:28:54 by jmunoz-j          #+#    #+#             */
-/*   Updated: 2026/10/13 20:14:31 by jmunoz-j         ###   ########.fr       */
+/*   Updated: 2026/10/13 20:47:05 by jmunoz-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h> //for testing only

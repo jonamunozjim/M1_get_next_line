@@ -29,7 +29,7 @@ char	*get_line(int fd, char *stor)
 	char		*buf;
 	int			rd_out;
 	char		*tmp;
-	//buf = ft_calloc ((BUFFER_SIZE + 1), sizeof (char));
+
 	buf = malloc ((BUFFER_SIZE + 1) * sizeof (char));
 	rd_out = read(fd, buf, BUFFER_SIZE);
 	buf[rd_out] = '\0';
@@ -94,7 +94,7 @@ char	*get_next_line(int fd)
 		return (line);
 	}
 }
-
+/*
 int	main(void)
 {
 	int		fd;
@@ -112,4 +112,4 @@ int	main(void)
 	}
 	close (fd);
 	return (0);
-}
+}*/

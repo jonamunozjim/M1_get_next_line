@@ -6,32 +6,11 @@
 /*   By: jmunoz-j <jmunoz-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 13:24:41 by jmunoz-j          #+#    #+#             */
-/*   Updated: 2026/10/13 20:31:20 by jmunoz-j         ###   ########.fr       */
+/*   Updated: 2026/10/13 20:44:43 by jmunoz-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	unsigned char	*s;
-	size_t			bytes;
-	unsigned int	i;
-
-	i = 0;
-	bytes = nmemb * size;
-	if (nmemb != 0 && (bytes / nmemb) != size)
-		return (NULL);
-	s = malloc(nmemb * size);
-	if (s == NULL)
-		return (NULL);
-	while (i < nmemb)
-	{
-		((unsigned char *)s)[i] = '\0';
-		i++;
-	}
-	return ((void *)s);
-}
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
