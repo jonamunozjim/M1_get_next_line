@@ -72,6 +72,8 @@ char	*clean_line(char *stor)
 	len = ft_strlen (stor);
 	while (stor[i] && stor[i] != '\n')
 		i++;
+	if (stor[i] == '\0')
+		return (free (stor), NULL); 
 	rest = ft_substr (stor, i + 1, len);
 	return (free(stor), rest);
 }
