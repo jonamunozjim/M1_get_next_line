@@ -32,6 +32,8 @@ char	*get_line(int fd, char *stor)
 
 	buf = malloc ((BUFFER_SIZE + 1) * sizeof (char));
 	rd_out = read(fd, buf, BUFFER_SIZE);
+	if (rd_out < 0)
+		return (free(buf), free (stor), NULL);
 	buf[rd_out] = '\0';
 	while (rd_out > 0)
 	{
@@ -86,7 +88,7 @@ char	*get_next_line(int fd)
 	}
 	stor = get_line (fd, stor);
 	if (!stor || stor[0] == '\0')
-		return (free (stor), NULL);
+		return (free (stor), stor = NULL, NULL);
 	else
 	{
 		line = extract_line (stor);
