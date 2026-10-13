@@ -14,67 +14,72 @@
 
 #include "get_next_line.h"
 
-int	read_line(int fd, char **stor)
+char	*get_line(int fd, char *stor)
 {
 	char		*buf;
-	char		*tmp;
+//	char		*tmp;
 	int			rd_out;
 
 	buf = calloc ((BUFFER_SIZE + 1), sizeof (char));
 	rd_out = read(fd, buf, BUFFER_SIZE);
-	buf[BUFFER_SIZE + 1] = '\0';
-	while (rd_out > 0)
+	if (rd_out > 0)
 	{
-		tmp = ft_strjoin (*stor, buf);
-		free (*stor);
-		*stor = tmp;
-		if (ft_strchr(*stor, '\n'))
-			return (free(buf), rd_out);
-		rd_out = read(fd, buf, BUFFER_SIZE);
+		buf[BUFFER_SIZE + 1] = '\0';
+		while (rd_out > 0)
+		{
+			stor = ft_strjoin (stor, buf);
+			if (ft_strchr(stor, '\n'))
+				return (free(buf), stor);
+			rd_out = read(fd, buf, BUFFER_SIZE);
+		}
+		return (free(buf), stor);
 	}
-	/*
-	tmp = ft_strjoin (*stor, buf);
-	free (*stor);
-	*stor = tmp;
-	*/
-	return (free(buf), rd_out);
+	else
+		return (free (buf), NULL);
 }
 
-char	*extract_line (char **stor)
+char	*extract_line (char *stor)
 {
 	int	i;
-	//int	len;
 	char *line;
-	char	*tmp;
+	
 	i = 0;
-	//len = ft_strlen (*stor);
-	while (*stor[i] && *stor[i] != '\n')
+	while (stor[i] && stor[i] != '\n')
 		i++;
-	line = ft_substr (*stor, 0, i);
-	tmp = ft_substr (*stor, 0, i);
-	printf("%s-%s", line, tmp);
-	free(*stor);
-	stor = &tmp;
-	free (tmp);
+	line = ft_substr (stor, 0, i);
 	return (line);
+}
+
+char	*clean_line (char *stor)
+{
+	int	i;
+	int	len;
+	char *rest;
+
+	i = 1;
+	len = ft_strlen (stor);
+	while (stor[i] && stor[i] != '\n')
+		i++;
+	rest = ft_substr (stor, i + 1, len);
+	return (rest);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*stor;
 	char		*line;
-	int			rd_out;
 	
 	if (!stor)
 		stor = calloc(3, sizeof (char));
-	rd_out = read_line (fd, &stor);
-	if (rd_out > 0)
+	stor = get_line (fd, stor);
+	if (!stor)
+		return (free (stor), NULL);
+	else
 	{
-		line = extract_line (&stor);
+		line = extract_line (stor);
+		stor = clean_line (stor);
 		return (line);
 	}
-	else
-		return (NULL);
 }
 
 int main(void)
