@@ -14,19 +14,34 @@
 
 #include "get_next_line.h"
 
+size_t	ft_strlen(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
 char	*get_line(int fd, char *stor)
 {
 	char		*buf;
 	int			rd_out;
-
-	buf = ft_calloc ((BUFFER_SIZE + 1), sizeof (char));
+	char		*tmp;
+	//buf = ft_calloc ((BUFFER_SIZE + 1), sizeof (char));
+	buf = malloc ((BUFFER_SIZE + 1) * sizeof (char));
 	rd_out = read(fd, buf, BUFFER_SIZE);
+	buf[rd_out] = '\0';
 	while (rd_out > 0)
 	{
-		stor = ft_strjoin (stor, buf);
+		tmp = stor;
+		stor = ft_strjoin (tmp, buf);
+		free (tmp);
 		if (ft_strchr(stor, '\n'))
 			return (free(buf), stor);
 		rd_out = read(fd, buf, BUFFER_SIZE);
+		buf[rd_out] = '\0';
 	}
 	return (free(buf), stor);
 }
@@ -56,7 +71,7 @@ char	*clean_line(char *stor)
 	while (stor[i] && stor[i] != '\n')
 		i++;
 	rest = ft_substr (stor, i + 1, len);
-	return (rest);
+	return (free(stor), rest);
 }
 
 char	*get_next_line(int fd)
@@ -65,7 +80,10 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (!stor)
-		stor = calloc(3, sizeof (char));
+	{
+		stor = malloc (sizeof (char));
+		stor[0] = '\0';
+	}
 	stor = get_line (fd, stor);
 	if (!stor || stor[0] == '\0')
 		return (free (stor), NULL);
@@ -82,14 +100,15 @@ int	main(void)
 	int		fd;
 	char	*str;
 
-	str = malloc (300 * sizeof (char));
-	str = "Ho";
 	fd = open("file.txt", O_RDONLY);
+	str = get_next_line (fd);
 	while (str != NULL)
 	{
-		str = get_next_line (fd);
 		printf("%s", str);
 		free (str);
+		str = get_next_line (fd);
+		if (!str)
+			printf("%s", str);
 	}
 	close (fd);
 	return (0);

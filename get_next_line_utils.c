@@ -6,7 +6,7 @@
 /*   By: jmunoz-j <jmunoz-j@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 13:24:41 by jmunoz-j          #+#    #+#             */
-/*   Updated: 2026/10/13 20:13:07 by jmunoz-j         ###   ########.fr       */
+/*   Updated: 2026/10/13 20:31:20 by jmunoz-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		i++;
 	}
 	return ((void *)s);
-}
-
-size_t	ft_strlen(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
 }
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
