@@ -14,9 +14,10 @@
 
 #include "get_next_line.h"
 
-int	read_line(int fd, char *stor)
+int	read_line(int fd, char **stor)
 {
 	char		*buf;
+	char		*tmp;
 	int			rd_out;
 
 	buf = calloc ((BUFFER_SIZE + 1), sizeof (char));
@@ -24,17 +25,14 @@ int	read_line(int fd, char *stor)
 	buf[BUFFER_SIZE + 1] = '\0';
 	while (rd_out > 0)
 	{
-		stor = ft_strjoin(stor, buf);
-		//printf("Stor: %s", stor);
-		if (ft_strchr(stor, '\n'))
-		{
-			//printf("%i", rd_out);
-			return (rd_out);
-		}
-		return (rd_out);
+		tmp = ft_strjoin (*stor, buf);
+		free (*stor);
+		*stor = tmp;
+		if (ft_strchr(*stor, '\n'))
+			return (free(buf), rd_out);
 		rd_out = read(fd, buf, BUFFER_SIZE);
 	}
-	return (rd_out);
+	return (free(buf), rd_out);
 }
 
 char	*extract_line (char *stor)
@@ -45,11 +43,9 @@ char	*extract_line (char *stor)
 
 	i = 0;
 	len = ft_strlen (stor);
-	printf("%i\n", len);
 	while (stor[i] && stor[i] != '\n')
 		i++;
 	line = ft_substr (stor, 0, i);
-	printf("Line: %s\n", line);
 	stor = ft_substr (stor, (i + 1), len);
 	return (line);
 }
@@ -62,8 +58,7 @@ char	*get_next_line(int fd)
 	
 	if (!stor)
 		stor = calloc(3, sizeof (char));
-	rd_out = read_line (fd, stor);
-	printf("%s\n%i\n", stor, rd_out);
+	rd_out = read_line (fd, &stor);
 	if (rd_out > 0)
 	{
 		line = extract_line (stor);
@@ -84,7 +79,7 @@ int main(void)
 	while (str != NULL)
 	{
 		str = get_next_line (fd);
-		printf(".%s", str);
+		printf(">%s<", str);
 		free (str);
 	}
 	close (fd);
