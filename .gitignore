@@ -1,5 +1,6 @@
 *.Identifier
 *.out
+*.gch
 *.swp
 *./a.out
 tester/
