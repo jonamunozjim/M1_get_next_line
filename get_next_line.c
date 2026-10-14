@@ -10,7 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//BUFFER_SIZE is added during compliation with -D BUFFER_SIZE=n (n = size)
+// Description:
+//	Calling get_next_line function returns file content pointed by 'fd' line
+//	by line until EOF.
+//  BUFFER_SIZE is set as 42 by default. It can be modified during compilation 
+//  with -D BUFFER_SIZE=n (where n = size). If the file pointed to by 'fd' is
+//  modified between calls, the behavior of this function is undetermined.
+//
+// Input parameters:
+//	fd, file descriptor to be read.
+//
+// Return value:
+//	On success, >> line read (char *).
+//	On failure or EOF >> NULL.
 
 #include "get_next_line.h"
 
@@ -73,7 +85,7 @@ char	*clean_line(char *stor)
 	while (stor[i] && stor[i] != '\n')
 		i++;
 	if (stor[i] == '\0')
-		return (free (stor), NULL); 
+		return (free (stor), NULL);
 	rest = ft_substr (stor, i + 1, len);
 	return (free(stor), rest);
 }
@@ -98,22 +110,3 @@ char	*get_next_line(int fd)
 		return (line);
 	}
 }
-/*
-int	main(void)
-{
-	int		fd;
-	char	*str;
-
-	fd = open("file.txt", O_RDONLY);
-	str = get_next_line (fd);
-	while (str != NULL)
-	{
-		printf("%s", str);
-		free (str);
-		str = get_next_line (fd);
-		if (!str)
-			printf("%s", str);
-	}
-	close (fd);
-	return (0);
-}*/

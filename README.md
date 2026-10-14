@@ -2,13 +2,11 @@
 
 # Get Next Line
 
-## 📖 Description
-
-Reading a line from a file descriptor (FD) in C can be a tedious task, as we do not know in advance the length of the line or how many newline characters might be read at once in a single buffer.
+## Description
 
 The goal of this project is to program the `get_next_line` function, which reads from a file descriptor and returns a single line each time it is called, ending with its corresponding newline character (`\n`). If called within a loop, it allows reading an entire file line by line efficiently, managing memory strictly without leaving any leaks.
 
-## 🧠 Algorithm Explanation and Justification
+## Algorithm Explanation and Justification
 
 In order to read text in blocks (defined by `BUFFER_SIZE`) and not lose the remaining characters after a newline, the core of the algorithm relies on the use of a **static variable** (`static char *stor`). This variable "remembers" the leftover text between one function call and the next.
 
@@ -25,7 +23,7 @@ The algorithm is logically divided into three main steps or functions:
 3. **Cleaning the Remainder (`clean_line`):**
    All the text left to the right of the `\n` in our static variable belongs to future lines. We calculate the exact length of this remainder and extract it into a new variable (again, using `ft_substr`). We free the memory of the old `stor` to prevent leaks and update it with this new remainder. If there is no leftover text, the static variable is safely set to `NULL`.
 
-## ⚙️ Compilation and Execution Instructions
+## Compilation and Execution Instructions
 
 To compile the project within your own programs, you must include the source files and define the reading buffer size using the `-D BUFFER_SIZE=n` flag.
 
@@ -45,7 +43,7 @@ cc -Wall -Werror -Wextra -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_u
 
 *Note: It is possible to compile without explicitly declaring the `BUFFER_SIZE`, as the `.h` header file includes a safety guard that assigns a default value.*
 
-## 📚 Resources and AI Usage
+## Resources and AI Usage
 
 **Learning Resources:**
 
@@ -56,10 +54,8 @@ cc -Wall -Werror -Wextra -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_u
 * Linux Manual Pages (`man read`, `man malloc`, `man free`).
 
 **Artificial Intelligence Usage:**
-During the development of this project, AI (LLM) was used under a strictly pedagogical approach (Socratic method) to consolidate knowledge. It was not used to generate direct source code, but rather as a supporting tutor to:
+During the development of this project, AI was used under a strictly pedagogical approach to consolidate knowledge. It was not used to generate direct source code, but rather as a supporting tutor to:
 
-* Understand and interpret tester error messages (e.g., compilation errors due to missing macro definitions).
-
-* Analyze the logic behind performance bottlenecks (*Timeouts*) when handling very large strings (`ft_substr`).
+* Understand and interpret tester error messages (e.g., compilation errors).
 
 * Visually trace memory flow to prevent dangling pointers and resolve memory leaks in edge cases like read errors.

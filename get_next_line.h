@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmunoz-j <jmunoz-j@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: jmunoz-j <jmunoz-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/07 13:28:54 by jmunoz-j          #+#    #+#             */
-/*   Updated: 2026/10/13 20:47:05 by jmunoz-j         ###   ########.fr       */
+/*   Updated: 2026/10/14 10:58:03 by jmunoz-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
+
 # include <unistd.h>
-# include <fcntl.h>
-# include <stdio.h> //for testing only
 # include <stdlib.h>
 
 char	*get_next_line(int fd);
