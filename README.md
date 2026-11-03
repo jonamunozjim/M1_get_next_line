@@ -1,5 +1,11 @@
 *This project has been created as part of the 42 curriculum by jmunoz-j.*
 
+<div align="right">
+  <strong>Languages:</strong>
+  <a href="README.md">English</a> ｜ 
+  <a href="README_es.md">Español</a>
+</div>
+
 # Get Next Line
 
 ## Description
